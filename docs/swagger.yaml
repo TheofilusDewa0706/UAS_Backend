@@ -1,0 +1,245 @@
+basePath: /
+definitions:
+  models.Comment:
+    properties:
+      id:
+        type: integer
+      komentar:
+        type: string
+      komik_id:
+        description: Relasi ke Komik
+        type: integer
+      user_id:
+        description: Relasi ke User
+        type: integer
+    type: object
+  models.Komik:
+    properties:
+      author:
+        type: string
+      genre:
+        type: string
+      id:
+        type: integer
+      nama:
+        type: string
+      publisher:
+        type: string
+      stok:
+        type: integer
+      tahun_terbit:
+        type: integer
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: support@example.com
+    name: Support Team
+  description: API untuk manajemen komik dan komentar
+  license:
+    name: MIT
+  termsOfService: http://example.com/terms/
+  title: Komik API
+  version: "1.0"
+paths:
+  /comments:
+    get:
+      description: Admin dapat melihat semua komentar, sedangkan user hanya dapat
+        melihat komentarnya sendiri
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Menampilkan semua komentar
+      tags:
+      - Komentar
+    post:
+      consumes:
+      - application/json
+      description: User dapat membuat komentar baru
+      parameters:
+      - description: Data Komentar
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Comment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Comment'
+      security:
+      - BearerAuth: []
+      summary: Membuat komentar baru
+      tags:
+      - Komentar
+  /comments/{id}:
+    delete:
+      description: Admin dapat menghapus komentar siapa saja, sedangkan user hanya
+        dapat menghapus komentarnya sendiri
+      parameters:
+      - description: ID Komentar
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Komentar berhasil dihapus
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Menghapus komentar
+      tags:
+      - Komentar
+    put:
+      consumes:
+      - application/json
+      description: User dapat memperbarui komentarnya sendiri
+      parameters:
+      - description: ID Komentar
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Data Komentar yang Diperbarui
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      security:
+      - BearerAuth: []
+      summary: Memperbarui komentar
+      tags:
+      - Komentar
+  /komik:
+    get:
+      description: Mengambil semua data komik dari database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Komik'
+            type: array
+      summary: Menampilkan semua data komik
+      tags:
+      - Komik
+    post:
+      consumes:
+      - application/json
+      description: Membuat data komik baru di database
+      parameters:
+      - description: Data Komik
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Komik'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Komik'
+      summary: Menambahkan komik baru
+      tags:
+      - Komik
+  /komik/{id}:
+    delete:
+      description: Menghapus data komik berdasarkan ID
+      parameters:
+      - description: ID Komik
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Data berhasil dihapus
+          schema:
+            type: string
+      summary: Menghapus data komik
+      tags:
+      - Komik
+    get:
+      description: Mengambil data komik dari database menggunakan ID
+      parameters:
+      - description: ID Komik
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Komik'
+      summary: Menampilkan detail komik berdasarkan ID
+      tags:
+      - Komik
+    put:
+      consumes:
+      - application/json
+      description: Memperbarui data komik berdasarkan ID
+      parameters:
+      - description: ID Komik
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Data Komik yang Diperbarui
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Komik'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Komik'
+      summary: Memperbarui data komik
+      tags:
+      - Komik
+  /komik/updates:
+    get:
+      description: Menyediakan koneksi WebSocket untuk memperbarui stok komik secara
+        real-time
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Client terhubung
+          schema:
+            type: string
+      summary: Mengelola koneksi WebSocket
+      tags:
+      - WebSocket
+swagger: "2.0"

@@ -8,7 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetAllComments - Admin dan User dapat melihat komentar
+// GetAllComments godoc
+// @Summary Menampilkan semua komentar
+// @Description Admin dapat melihat semua komentar, sedangkan user hanya dapat melihat komentarnya sendiri
+// @Tags Komentar
+// @Produce application/json
+// @Success 200 {array} models.Comment
+// @Router /comments [get]
+// @Security BearerAuth
 func GetAllComments(c *gin.Context) {
 	role, _ := c.Get("role_id")
 
@@ -38,7 +45,16 @@ func GetAllComments(c *gin.Context) {
 	c.JSON(http.StatusForbidden, gin.H{"error": "Role tidak diizinkan untuk melihat komentar"})
 }
 
-// CreateComment - Hanya user yang dapat membuat komentar
+// CreateComment godoc
+// @Summary Membuat komentar baru
+// @Description User dapat membuat komentar baru
+// @Tags Komentar
+// @Accept application/json
+// @Produce application/json
+// @Param data body models.Comment true "Data Komentar"
+// @Success 201 {object} models.Comment
+// @Router /comments [post]
+// @Security BearerAuth
 func CreateComment(c *gin.Context) {
 	role, _ := c.Get("role_id")
 	if role != 2 {
@@ -63,7 +79,17 @@ func CreateComment(c *gin.Context) {
 	c.JSON(http.StatusCreated, comment)
 }
 
-// UpdateComment - Hanya user yang dapat mengedit komentar miliknya sendiri
+// UpdateComment godoc
+// @Summary Memperbarui komentar
+// @Description User dapat memperbarui komentarnya sendiri
+// @Tags Komentar
+// @Accept application/json
+// @Produce application/json
+// @Param id path int true "ID Komentar"
+// @Param data body models.Comment true "Data Komentar yang Diperbarui"
+// @Success 200 {object} models.Comment
+// @Router /comments/{id} [put]
+// @Security BearerAuth
 func UpdateComment(c *gin.Context) {
 	role, _ := c.Get("role_id")
 	if role != 2 {
@@ -94,7 +120,14 @@ func UpdateComment(c *gin.Context) {
 	c.JSON(http.StatusOK, comment)
 }
 
-// DeleteComment - Admin dapat menghapus komentar siapa saja, User hanya dapat menghapus komentarnya sendiri
+// DeleteComment godoc
+// @Summary Menghapus komentar
+// @Description Admin dapat menghapus komentar siapa saja, sedangkan user hanya dapat menghapus komentarnya sendiri
+// @Tags Komentar
+// @Param id path int true "ID Komentar"
+// @Success 200 {string} string "Komentar berhasil dihapus"
+// @Router /comments/{id} [delete]
+// @Security BearerAuth
 func DeleteComment(c *gin.Context) {
 	role, _ := c.Get("role_id")
 	id := c.Param("id")

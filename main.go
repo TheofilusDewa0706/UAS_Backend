@@ -2,14 +2,26 @@ package main
 
 import (
 	"backend/config"
+	_ "backend/docs"
 	"backend/routes"
 	"log"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title Komik API
+// @version 1.0
+// @description API untuk manajemen komik dan komentar
+// @termsOfService http://example.com/terms/
+// @contact.name Support Team
+// @contact.email support@example.com
+// @license.name MIT
+// @host localhost:8081
+// @BasePath /
 func main() {
 	// Membuat instance Gin
 	router := gin.Default()
@@ -33,6 +45,9 @@ func main() {
 	// Registrasi routes
 	routes.RegisterRoutes(router)
 	routes.RegisterCommentRoutes(router) // Aktifkan rute komentar
+
+	// Tambahkan Swagger UI
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Menjalankan server di port 8081
 	log.Println("Server berjalan di http://localhost:8081")

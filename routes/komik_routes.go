@@ -18,5 +18,6 @@ func RegisterRoutes(r *gin.Engine) {
 		komik.GET("/:id", middlewares.AuthMiddleware(1, 2), controllers.GetKomikByID)
 		komik.PUT("/:id", middlewares.AuthMiddleware(1), controllers.UpdateKomik)
 		komik.DELETE("/:id", middlewares.AuthMiddleware(1), controllers.DeleteKomik)
+		komik.GET("/updates", controllers.HandleWebSocket) // Rute WebSocket
 	}
 }
