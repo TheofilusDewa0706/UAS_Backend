@@ -20,7 +20,7 @@ import (
 // @contact.name Support Team
 // @contact.email support@example.com
 // @license.name MIT
-// @host localhost:8081
+// @host localhost:8080
 // @BasePath /
 func main() {
 	// Membuat instance Gin
@@ -50,8 +50,8 @@ func main() {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Menjalankan server di port 8081
-	log.Println("Server berjalan di http://localhost:8081")
-	if err := router.Run(":8081"); err != nil {
+	log.Println("Server berjalan di http://localhost:8080")
+	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("Gagal menjalankan server: %v", err)
 	}
 }
