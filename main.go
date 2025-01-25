@@ -31,12 +31,12 @@ func main() {
 
 	// Middleware CORS
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "https://uasfrontend-nine.vercel.app", "https://uas-frontend-qt2c.vercel.app"}, // URL frontend
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},                                                                         // Metode HTTP yang diizinkan
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},                                                    // Header yang diizinkan
-		AllowCredentials: true,                                                                                                             // Jika menggunakan cookie atau header Authorization
-		ExposeHeaders:    []string{"Content-Length"},                                                                                       // Header yang dapat diakses oleh client
-		MaxAge:           12 * time.Hour,                                                                                                   // Cache header selama 12 jam
+		AllowOrigins:     []string{"http://localhost:5173", "https://uasfrontend-nine.vercel.app", "https://uas-frontend-qt2c.vercel.app", "https://uas-frontend-final.vercel.app"}, // URL frontend
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},                                                                                                                  // Metode HTTP yang diizinkan
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},                                                                                             // Header yang diizinkan
+		AllowCredentials: true,                                                                                                                                                      // Jika menggunakan cookie atau header Authorization
+		ExposeHeaders:    []string{"Content-Length"},                                                                                                                                // Header yang dapat diakses oleh client
+		MaxAge:           12 * time.Hour,                                                                                                                                            // Cache header selama 12 jam
 	}))
 
 	// Koneksi ke database
